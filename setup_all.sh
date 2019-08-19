@@ -5,8 +5,8 @@ Password=kbsys1234
 for Node_ip in ${IP_LIST}
 do
 	echo ${Node_ip}
-	sshpass -p ${Password} scp -oStrictHostKeyChecking=no ./install_script.sh root@${Node_ip}:/root/setup_env.sh
+	sshpass -p ${Password} scp -oStrictHostKeyChecking=no ./setup_env.sh root@${Node_ip}:/root/setup_env.sh
 	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Node_ip} chmod 775 /root/setup_env.sh
-	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Node_ip} /root/install_script.sh
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Node_ip} /root/setup_env.sh
 done
 
