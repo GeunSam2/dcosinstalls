@@ -9,59 +9,59 @@ Password='kbsys1234'
 
 #Master script
 echo "Master Job Start!"
-sshpass -p ${Password} ssh root@${Master_ip} yum -y install ntp
-sshpass -p ${Password} ssh root@${Master_ip} systemctl disable firewalld
-sshpass -p ${Password} ssh root@${Master_ip} systemctl stop firewalld
-sshpass -p ${Password} ssh root@${Master_ip} systemctl stop dnsmasq
-sshpass -p ${Password} ssh root@${Master_ip} systemctl disable dnsmasq.service
-sshpass -p ${Password} ssh root@${Master_ip} systemctl stop ntpd
-sshpass -p ${Password} ssh root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
-sleep 10; sshpass -p ${Password} ssh root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
-sleep 20; sshpass -p ${Password} ssh root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
-sshpass -p ${Password} ssh root@${Master_ip} systemctl start ntpd
-sshpass -p ${Password} ssh root@${Master_ip} systemctl enable ntpd
-sshpass -p ${Password} ssh root@${Master_ip} mkdir -p /tmp/dcos
-sshpass -p ${Password} ssh root@${Master_ip} cd /tmp/dcos
-sshpass -p ${Password} ssh root@${Master_ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
-echo 'Master Job'; sshpass -p ${Password} ssh root@${Master_ip} bash dcos_install.sh master; read -p 'Press... RETURN'
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} yum -y install ntp
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl disable firewalld
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl stop firewalld
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl stop dnsmasq
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl disable dnsmasq.service
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl stop ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl start ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} systemctl enable ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} mkdir -p /tmp/dcos
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} cd /tmp/dcos
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Master_ip} bash dcos_install.sh master
 
 #Private_Agent script
 echo "Private Job Start!"
 for ip in $Private_ip
 do
 	echo Private ${ip} Job start!
-	sshpass -p ${Password} ssh root@${Master_ip} yum -y install ntp
-	sshpass -p ${Password} ssh root@${ip} systemctl disable firewalld
-	sshpass -p ${Password} ssh root@${ip} systemctl stop firewalld
-	sshpass -p ${Password} ssh root@${ip} systemctl stop dnsmasq
-	sshpass -p ${Password} ssh root@${ip} systemctl disable dnsmasq.service
-	sshpass -p ${Password} ssh root@${ip} systemctl stop ntpd
-	sshpass -p ${Password} ssh root@${ip} ntpdate 0.rhel.pool.ntp.org
-	sleep 10; sshpass -p ${Password} ssh root@${ip} ntpdate 0.rhel.pool.ntp.org
-	sleep 20; sshpass -p ${Password} ssh root@${ip} ntpdate 0.rhel.pool.ntp.org
-	sshpass -p ${Password} ssh root@${ip} ntpdate 0.rhel.pool.ntp.org
-	sshpass -p ${Password} ssh root@${ip} systemctl start ntpd
-	sshpass -p ${Password} ssh root@${ip} systemctl enable ntpd
-	sshpass -p ${Password} ssh root@${ip} mkdir -p /tmp/dcos
-	sshpass -p ${Password} ssh root@${ip} cd /tmp/dcos
-	sshpass -p ${Password} ssh root@${ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
-	echo ${ip}start ;sshpass -p ${Password} ssh root@${ip} bash dcos_install.sh slave; read -p 'Press... RERTURN'
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} yum -y install ntp
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl disable firewalld
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl stop firewalld
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl stop dnsmasq
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl disable dnsmasq.service
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl stop ntpd
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} ntpdate 0.rhel.pool.ntp.org
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} ntpdate 0.rhel.pool.ntp.org
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} ntpdate 0.rhel.pool.ntp.org
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} ntpdate 0.rhel.pool.ntp.org
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl start ntpd
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} systemctl enable ntpd
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} mkdir -p /tmp/dcos
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} cd /tmp/dcos
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
+	sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${ip} bash dcos_install.sh slave
 done
 
 #Public_Agent scirp
 echo "Public Job start!"
-sshpass -p ${Password} ssh root@${Public_ip} yum -y install ntp
-sshpass -p ${Password} ssh root@${Public_ip} systemctl disable firewalld
-sshpass -p ${Password} ssh root@${Public_ip} systemctl stop firewalld
-sshpass -p ${Password} ssh root@${Public_ip} systemctl stop dnsmasq
-sshpass -p ${Password} ssh root@${Public_ip} systemctl disable dnsmasq.service
-sshpass -p ${Password} ssh root@${Public_ip} systemctl stop ntpd
-sshpass -p ${Password} ssh root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
-sleep 10; sshpass -p ${Password} ssh root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
-sleep 20; sshpass -p ${Password} ssh root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
-sshpass -p ${Password} ssh root@${Public_ip} systemctl start ntpd
-sshpass -p ${Password} ssh root@${Public_ip} systemctl enable ntpd
-sshpass -p ${Password} ssh root@${Public_ip} mkdir /tmp/dcos
-sshpass -p ${Password} ssh root@${Public_ip} cd /tmp/dcos
-sshpass -p ${Password} ssh root@${Public_ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
-echo 'Public start'; sshpass -p ${Password} ssh root@${Public_ip} bash dcos_install.sh slave_public; read -p 'Press... RETURN'
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} yum -y install ntp
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl disable firewalld
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl stop firewalld
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl stop dnsmasq
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl disable dnsmasq.service
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl stop ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} ntpdate 0.rhel.pool.ntp.org
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl start ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} systemctl enable ntpd
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} mkdir /tmp/dcos
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} cd /tmp/dcos
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} curl -O http://${Bootst_ip}:${Docker_pt}/dcos_install.sh
+sshpass -p ${Password} ssh -oStrictHostKeyChecking=no root@${Public_ip} bash dcos_install.sh slave_public
