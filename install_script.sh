@@ -16,7 +16,7 @@ echo ">>> Adjusting SSH Daemon Configuration"
 #This Setting make server to cannot connect to SSH
 #sed -i '/^\s*PermitRootLogin /d' /etc/ssh/sshd_config
 
-echo -e "\nPermitRootLogin without-password" >> /etc/ssh/sshd_config
+#echo -e "\nPermitRootLogin without-password" >> /etc/ssh/sshd_config
 
 sed -i '/^\s*UseDNS /d' /etc/ssh/sshd_config
 echo -e "\nUseDNS no" >> /etc/ssh/sshd_config
@@ -136,4 +136,5 @@ systemctl enable $(basename "$update_hosts_unit")
 # Make sure we wait until all the data is written to disk, otherwise
 # Packer might quite too early before the large files are deleted
 sync
-
+yum -y install docker*
+systemctl restart sshd
