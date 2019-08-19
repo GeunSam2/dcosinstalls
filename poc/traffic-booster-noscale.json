@@ -1,0 +1,24 @@
+{
+"id": "/traffic-booster-noscale",
+"args":[
+    "-d1",
+    "-r1000",
+    "-c100",
+    "http://192.168.0.249:11998/"
+],
+"cpus": 0.5,
+"mem": 16,
+"instances": 1,
+"container": {
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+    "image": "yokogawa/siege",
+    "network": "HOST",
+    "privileged": false,
+    "parameters": [],
+    "forcePullImage": false
+    }
+}
+}
+

@@ -1,0 +1,23 @@
+{
+  "id": "/marathon-lb-autoscale",
+  "args":[
+    "--marathon", "http://192.168.0.240:8080",
+    "--haproxy", "http://192.168.0.249:9090",
+    "--target-rps", "100",
+    "--apps", "nginx-autoscale_11996",
+    "--threshold-instances", "1",
+    "--samples", "2",
+    "--interval", "20"
+  ],
+  "cpus": 0.1,
+  "mem": 16,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "brndnmtthws/marathon-lb-autoscale",
+      "network": "HOST",
+      "forcePullImage": true
+    }
+  }
+}
