@@ -1,0 +1,108 @@
+{
+  "env": {
+    "cluster.name": "docker-cluster",
+    "node.name": "elastic01",
+    "TZ": "Asia/Seoul",
+    "ES_JAVA_OPTS": "-Xms4g -Xmx4g",
+    "bootstrap.memory_lock": "true"
+  },
+  "labels": {
+    "HAPROXY_GROUP": "external"
+  },
+  "id": "/kt-poc/elasticsearch",
+  "backoffFactor": 1.15,
+  "backoffSeconds": 1,
+  "constraints": [
+    [
+      "hostname",
+      "LIKE",
+      "192.168.0.246"
+    ]
+  ],
+  "container": {
+    "portMappings": [
+      {
+        "containerPort": 9200,
+        "hostPort": 0,
+        "labels": {
+          "VIP_0": "kt-elastic:9200"
+        },
+        "protocol": "tcp",
+        "servicePort": 10141,
+        "name": "9200"
+      },
+      {
+        "containerPort": 9300,
+        "hostPort": 0,
+        "labels": {
+          "VIP_1": "kt-elastic:9300"
+        },
+        "protocol": "tcp",
+        "servicePort": 10142,
+        "name": "9300"
+      }
+    ],
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/usr/share/elasticsearch/data",
+        "hostPath": "/data/elastic1",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "docker.elastic.co/elasticsearch/elasticsearch:6.7.2",
+      "forcePullImage": true,
+      "privileged": false,
+      "parameters": [
+        {
+          "key": "ulimit",
+          "value": "nproc=65535"
+        },
+        {
+          "key": "ulimit",
+          "value": "memlock=-1:-1"
+        },
+        {
+          "key": "cap-add",
+          "value": "ALL"
+        }
+      ]
+    }
+  },
+  "cpus": 2,
+  "disk": 0,
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "timeoutSeconds": 20,
+      "delaySeconds": 15,
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "ipProtocol": "IPv4"
+    }
+  ],
+  "instances": 1,
+  "maxLaunchDelaySeconds": 3600,
+  "mem": 8192,
+  "gpus": 0,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "requirePorts": false,
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 1
+  },
+  "killSelection": "YOUNGEST_FIRST",
+  "unreachableStrategy": {
+    "inactiveAfterSeconds": 0,
+    "expungeAfterSeconds": 0
+  },
+  "fetch": []
+}

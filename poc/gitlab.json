@@ -1,0 +1,93 @@
+{
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_VHOST": "poc-git.dcos.kr"
+  },
+  "id": "/kt-poc/gitlab",
+  "backoffFactor": 1.15,
+  "backoffSeconds": 1,
+  "constraints": [
+    [
+      "hostname",
+      "LIKE",
+      "192.168.0.246"
+    ]
+  ],
+  "container": {
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "servicePort": 10130,
+        "name": "80"
+      },
+      {
+        "containerPort": 443,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "servicePort": 10136,
+        "name": "443"
+      }
+    ],
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/etc/gitlab",
+        "hostPath": "/data/gitlab/config",
+        "mode": "RW"
+      },
+      {
+        "containerPath": "/var/log/gitlab",
+        "hostPath": "/data/gitlab/logs",
+        "mode": "RW"
+      },
+      {
+        "containerPath": "/var/opt/gitlab",
+        "hostPath": "/data/gitlab/data",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "gitlab/gitlab-ce:11.10.4-ce.0",
+      "forcePullImage": true,
+      "privileged": false,
+      "parameters": []
+    }
+  },
+  "cpus": 2,
+  "disk": 0,
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "timeoutSeconds": 20,
+      "delaySeconds": 15,
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "ipProtocol": "IPv4"
+    }
+  ],
+  "instances": 1,
+  "maxLaunchDelaySeconds": 3600,
+  "mem": 4096,
+  "gpus": 0,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "requirePorts": false,
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 1
+  },
+  "killSelection": "YOUNGEST_FIRST",
+  "unreachableStrategy": {
+    "inactiveAfterSeconds": 0,
+    "expungeAfterSeconds": 0
+  },
+  "fetch": []
+}
