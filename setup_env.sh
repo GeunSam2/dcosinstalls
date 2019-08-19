@@ -137,4 +137,6 @@ systemctl enable $(basename "$update_hosts_unit")
 # Packer might quite too early before the large files are deleted
 sync
 yum -y install docker*
+ln -s /usr/libexec/docker/docker-runc-current /usr/bin/docker-runc
+ln -sf /usr/libexec/docker/docker-proxy-current /usr/libexec/docker/docker-proxy
 systemctl restart sshd
