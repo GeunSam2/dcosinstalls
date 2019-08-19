@@ -1,0 +1,28 @@
+bootstrap_url: http://<bootstrap_ip>:80
+cluster_name: <cluster-name>
+superuser_username:
+superuser_password_hash:
+exhibitor_storage_backend: static
+master_discovery: static
+ip_detect_public_filename: <relative-path-to-ip-script>
+master_list:
+- <master-private-ip-1>
+- <master-private-ip-2>
+- <master-private-ip-3>
+resolvers:
+- 168.126.63.1
+- 8.8.8.8
+# Choose your security mode: permissive or strict
+#security: permissive
+#superuser_password_hash: <hashed-password> # Generated above
+#superuser_username: <username> # This can be whatever you like
+# A custom proxy is optional. For details, see the configuration documentation.
+#use_proxy: 'false'
+#http_proxy: http://<user>:<pass>@<proxy_host>:<http_proxy_port>
+#https_proxy: https://<user>:<pass>@<proxy_host>:<https_proxy_port>
+#no_proxy:
+#- 'foo.bar.com'
+#- '.baz.com'
+#fault_domain_enabled: false
+#If IPv6 is disabled in your kernel, you must disable it in the config.yaml
+#enable_ipv6: 'false'
