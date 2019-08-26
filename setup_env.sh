@@ -3,9 +3,9 @@ set -o errexit -o nounset -o pipefail
 export CENTOS_VERSION=`cat /etc/centos-release | awk '{print $4}'`
 echo ">>> Kernel: $(uname -r)"
 echo ">>> Updating system to $CENTOS_VERSION"
-sed -i -e 's/^mirrorlist=/#mirrorlist=/' -e 's/^#baseurl=/baseurl=/' /etc/yum.repos.d/CentOS-Base.repo
-yum -y --releasever=$CENTOS_VERSION update
-sed -i -e 's/^#mirrorlist=/mirrorlist=/' -e 's/^baseurl=/#baseurl=/' /etc/yum.repos.d/CentOS-Base.repo
+#sed -i -e 's/^mirrorlist=/#mirrorlist=/' -e 's/^#baseurl=/baseurl=/' /etc/yum.repos.d/CentOS-Base.repo
+#yum -y --releasever=$CENTOS_VERSION update
+#sed -i -e 's/^#mirrorlist=/mirrorlist=/' -e 's/^baseurl=/#baseurl=/' /etc/yum.repos.d/CentOS-Base.repo
 
 echo ">>> Disabling SELinux"
 sed -i 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/selinux/config
@@ -132,7 +132,9 @@ EOF
 systemctl daemon-reload
 systemctl enable $(basename "$update_hosts_unit")
 
-
+yum remove docker*
+rpm -q --whatrequires container-selinux-1.10.3-59.el7.centos.x86_64
+yum remove container-selinux
 # Make sure we wait until all the data is written to disk, otherwise
 # Packer might quite too early before the large files are deleted
 sync
