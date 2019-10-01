@@ -64,7 +64,7 @@ EOF
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 
-#disable ndsmasq
+#disable dnsmasq
 systemctl stop dnsmasq
 systemctl disable dnsmasq.service
 
