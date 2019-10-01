@@ -6,7 +6,8 @@ echo #########################
 
 
 echo #install process 1
-yum -y --tolerant install perl tar xz unzip curl bind-utils net-tools ipset libtool-ltdl rsync nfs-utils
+yum groupinstall -y "Development Tools"
+yum -y --tolerant install perl tar xz unzip curl bind-utils net-tools ipset libtool-ltdl rsync nfs-utils kernel-devel pciutils
 
 
 echo #check docker install
