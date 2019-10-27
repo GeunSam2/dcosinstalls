@@ -88,3 +88,8 @@ localectl set-locale LANG=en_US.utf8
 echo #clean up
 yum clean all
 rm -rf /tmp/* /var/tmp/*
+
+echo #########################
+echo #END OF SCRIPT
+echo #########################
+
