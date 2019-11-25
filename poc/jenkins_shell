@@ -1,8 +1,14 @@
+----------------------------------------------------
+Service
+----------------------------------------------------
+
 #########
 #VARS
 #########
-WORKSPACE=${WORKSPACE}/web/auth-front
-BUILD_IMG=61.33.235.71:18080/nginx-auth-front:${BUILD_NUMBER}
+SERVICE_N=cm-auth
+SERVICE_T=was
+WORKSPACE=${WORKSPACE}/${SERVICE_T}/${SERVICE_N}
+BUILD_IMG=61.33.235.71:18080/${SERVICE_T}-${SERVICE_N}:${BUILD_NUMBER}
 
 #########
 #BUILD&PUSH IMAGE
@@ -15,4 +21,31 @@ docker push ${BUILD_IMG}
 #DCOS Control
 #########
 dcos cluster setup http://128.11.30.211 --no-check --username=${DCOS_ID} --password=${DCOS_PW}
-jq .container.docker.image=\"${BUILD_IMG}\" ${WORKSPACE}/dcos_service.json | dcos marathon  app update /glink-sr/web/auth-front
+jq .container.docker.image=\"${BUILD_IMG}\" ${WORKSPACE}/dcos_service.json | dcos marathon  app update /glink-sr/${SERVICE_T}/${SERVICE_N}
+
+----------------------------------------------------
+ROLL BACK
+----------------------------------------------------
+
+#########
+#VARS
+#########
+NEXUS='http://61.33.235.71:18081'
+REPO_N='docker-repo'
+SERVICE_T='was'
+SERVICE_N='cm-auth'
+WORKSPACE=${WORKSPACE}/${SERVICE_T}/${SERVICE_N}
+
+#########
+#GET VERSION
+#########
+REPO_DATA=`curl -u ${REPO_ID}:${REPO_PW} -X GET \
+"${NEXUS}/service/rest/v1/search?repository=${REPO_N}&name=${SERVICE_T}-${SERVICE_N}"`
+LAST_VERSION=`echo ${REPO_DATA} | jq '.items[-2].version'`
+BUILD_IMG=61.33.235.71:18080/${SERVICE_T}-${SERVICE_N}:${LAST_VERSION:1:2}
+
+#########
+#DCOS Control
+#########
+dcos cluster setup http://128.11.30.211 --no-check --username=${DCOS_ID} --password=${DCOS_PW}
+jq .container.docker.image=\"${BUILD_IMG}\" ${WORKSPACE}/dcos_service.json | dcos marathon  app update /glink-sr/${SERVICE_T}/${SERVICE_N}
