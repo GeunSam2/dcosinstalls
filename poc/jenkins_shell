@@ -41,8 +41,8 @@ WORKSPACE=${WORKSPACE}/${SERVICE_T}/${SERVICE_N}
 #########
 REPO_DATA=`curl -u ${REPO_ID}:${REPO_PW} -X GET \
 "${NEXUS}/service/rest/v1/search?repository=${REPO_N}&name=${SERVICE_T}-${SERVICE_N}"`
-LAST_VERSION=`echo ${REPO_DATA} | jq '.items[-2].version'`
-BUILD_IMG=61.33.235.71:18080/${SERVICE_T}-${SERVICE_N}:${LAST_VERSION:1:2}
+LAST_VERSION=$(echo ${REPO_DATA} | jq '[.items[].version | tonumber] | sort | .[-2]')
+BUILD_IMG=61.33.235.71:18080/${SERVICE_T}-${SERVICE_N}:${LAST_VERSION}
 
 #########
 #DCOS Control
