@@ -4,6 +4,17 @@ import sys
 import time
 
 #####
+#INIT
+#####
+if (len(sys.argv) != 3):
+	print ("""
+Usage : python ./This.py [service_type] [service_name]
+
+ex) python ./check.py was cm-auth
+""")
+	sys.exit(1)
+
+#####
 #FUNCTIONS
 #####
 def get_api(s_t, s_n):
@@ -19,14 +30,14 @@ def delete_api(d_id):
 #####
 #VARS
 #####
-S_T="was"
-S_N="cm-auth"
+S_T=sys.argv[1]
+S_N=sys.argv[2]
+# S_T : service type(web/was/db..) | S_N : service name(cm-auth/db-redis/auth-front...)
 deployments=get_api(S_T, S_N)
 deployments=json.loads(deployments)
 deploy_id="null"
 flag=0
 
-print (deployments)
 if (deployments == None):
 	print ("Deployment has never been carried out.")
 	sys.exit(1)
