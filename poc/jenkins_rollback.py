@@ -6,11 +6,11 @@ import time
 #####
 #INIT
 #####
-if (len(sys.argv) != 3):
+if (len(sys.argv) != 4):
 	print ("""
-Usage : python ./This.py [service_type] [service_name]
+Usage : python ./This.py [service_type] [service_name] [Health_check_Interval]
 
-ex) python ./check.py was cm-auth
+ex) python ./check.py was cm-auth 60
 """)
 	sys.exit(1)
 
@@ -32,14 +32,17 @@ def delete_api(d_id):
 #####
 S_T=sys.argv[1]
 S_N=sys.argv[2]
-# S_T : service type(web/was/db..) | S_N : service name(cm-auth/db-redis/auth-front...)
+Interval=int(sys.argv[3])
+#S_T : service type(web/was/db..)
+#S_N : service name(cm-auth/db-redis/auth-front...) 
+#Interval : Health check Interval
 deployments=get_api(S_T, S_N)
 deployments=json.loads(deployments)
 deploy_id="null"
 flag=0
 
 if (deployments == None):
-	print ("Deployment has never been carried out.")
+	subprocess.call("echo Deployment has never been carried out.", shell=True)
 	sys.exit(1)
 	
 # get deploy id
@@ -48,24 +51,23 @@ for deploy in deployments:
 		deploy_id=deploy["id"]
 		break
 
-print ("Start Health Check..")
+subprocess.call("echo Start health Check..", shell=True)
 
 for seq in range(1, 4):
-	time.sleep (30)
+	time.sleep (Interval)
 	deploy=get_api(S_T, S_N)
 	if (deploy == "null"):
-		print ("Deployment Success!!")
+		subprocess.call("echo Deployment Success!!", shell=True)
 		flag=0
 		break
-	print(str(seq)+"st Health Check fail..")	
+	subprocess.call("echo "+str(seq)+"st Health Check fail..", shell=True)
 	flag=1
 
 if (flag == 1):
-	print ("Deployment Fail.")
-	print ("Starting RollBack process.")
+	subprocess.call("echo Deployment Fail. Start Rollback process", shell=True)
 	delete_api(deploy_id)
-	print ("RollBack Success!")
-	print ("Transaction End By RollBack")	
+	subprocess.call("echo RollBack Success!", shell=True)
+	subprocess.call("echo Transaction End By RollBack", shell=True)
 	sys.exit(1)
 
-print ("Transaction End By Success")	
+subprocess.call("echo Transaction End By Success", shell=True)
