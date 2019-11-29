@@ -1,7 +1,6 @@
 ----------------------------------------------------
 Service
 ----------------------------------------------------
-
 #########
 #VARS
 #########
@@ -23,6 +22,10 @@ docker push ${BUILD_IMG}
 dcos cluster setup http://128.11.30.211 --no-check --username=${DCOS_ID} --password=${DCOS_PW}
 jq .container.docker.image=\"${BUILD_IMG}\" ${WORKSPACE}/dcos_service.json | dcos marathon  app update /glink-sr/${SERVICE_T}/${SERVICE_N}
 
+#########
+#Check & RollBack
+#########
+python3.6 /var/jenkins_home/check.py ${SERVICE_T} ${SERVICE_N} 50
 ----------------------------------------------------
 ROLL BACK
 ----------------------------------------------------
