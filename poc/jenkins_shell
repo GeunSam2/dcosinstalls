@@ -49,3 +49,31 @@ BUILD_IMG=61.33.235.71:18080/${SERVICE_T}-${SERVICE_N}:${LAST_VERSION}
 #########
 dcos cluster setup http://128.11.30.211 --no-check --username=${DCOS_ID} --password=${DCOS_PW}
 jq .container.docker.image=\"${BUILD_IMG}\" ${WORKSPACE}/dcos_service.json | dcos marathon  app update /glink-sr/${SERVICE_T}/${SERVICE_N}
+
+
+-------------------------
+RollBack2
+-------------------------
+
+#########
+#VARS
+#########
+NEXUS='http://61.33.235.71:18081'
+REPO_N='docker-repo'
+SERVICE_T='was'
+SERVICE_N='cm-auth'
+WORKSPACE=${WORKSPACE}/${SERVICE_T}/${SERVICE_N}
+
+#########
+#GET VERSION
+#########
+SERVICE_V=$(curl http://128.11.30.211:8080/v2/apps/glink-sr/${SERVICE_T}/${SERVICE_N}/versions |\
+jq '.versions|sort|.[-2]')
+SERVICE_J=$(curl http://128.11.30.211:8080/v2/apps/glink-sr/${SERVICE_T}/${SERVICE_N}/versions/${SERVICE_V:1:-1})
+
+
+#########
+#DCOS Control
+#########
+dcos cluster setup http://128.11.30.211 --no-check --username=${DCOS_ID} --password=${DCOS_PW}
+echo ${SERVICE_J}| jq 'del(.version)|del(.versionInfo)' | dcos marathon  app update /glink-sr/${SERVICE_T}/${SERVICE_N}
