@@ -19,11 +19,17 @@ fi
 
 
 echo #install docker 1.13 version
-curl -fLsSv --retry 20 -Y 100000 -y 60 -o /tmp/docker-engine-1.13.1-1.el7.centos.x86_64.rpm \
-  https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-1.13.1-1.el7.centos.x86_64.rpm
-curl -fLsSv --retry 20 -Y 100000 -y 60 -o /tmp/docker-engine-selinux-1.13.1-1.el7.centos.noarch.rpm \
-  https://yum.dockerproject.org/repo/main/centos/7/Packages/docker-engine-selinux-1.13.1-1.el7.centos.noarch.rpm
-yum -y localinstall /tmp/docker*.rpm || true
+curl -fLsSv --retry 20 -Y 100000 -y 60 -o /tmp/containerd.io-1.2.6-3.3.el7.x86_64.rpm \
+  https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+curl -fLsSv --retry 20 -Y 100000 -y 60 -o /tmp/docker-ce-19.03.9-3.el7.x86_64.rpm \
+  https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-19.03.9-3.el7.x86_64.rpm
+curl -fLsSv --retry 20 -Y 100000 -y 60 -o /tmp/docker-ce-cli-19.03.9-3.el7.x86_64.rpm \
+  https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-cli-19.03.9-3.el7.x86_64.rpm
+  
+yum -y localinstall /tmp/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+yum -y localinstall /tmp/docker-ce-19.03.9-3.el7.x86_64.rpm
+yum -y localinstall /tmp/docker-ce-cli-19.03.9-3.el7.x86_64.rpm
+
 
 
 echo #########################
